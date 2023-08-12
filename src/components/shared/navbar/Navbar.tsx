@@ -5,6 +5,9 @@ import UserAvatar from "./UserAvatar";
 import { getAuthSession } from "@/lib/nextauth";
 import SignInButton from "./SignInButton";
 import UserAccountNav from "./UserAccountNav";
+import { Button } from "@/components/ui/button";
+import HamburgerMenu from "./HamburgerMenu";
+import { navLinks } from "@/app/(constants)/constants";
 
 type Props = {};
 
@@ -15,16 +18,33 @@ const Navbar = async (props: Props) => {
     <NavbarWrapper>
       <div className="mx-auto flex h-full max-w-7xl items-center justify-between gap-2 px-8">
         <Link href="/" className="flex items-center gap-2">
-          <p className="rounded-lg border-2 border-b-4 border-r-4 border-black px-2 py-1 text-xl font-bold transition-all hover:-translate-y-[2px] active:scale-95 dark:border-white md:block">
+          <p className="border-button-perspective rounded-lg px-2 py-1 text-xl font-bold transition-all hover:-translate-y-[2px] active:scale-95 dark:border-white md:block">
             <span className="hidden sm:block">IntelliMind</span>
             <span className="block sm:hidden">IntelliM</span>
           </p>
         </Link>
 
+        {session?.user && (
+          <ul className="hidden md:flex">
+            {navLinks.map((link) => (
+              <li key={link.name}>
+                <Link href={link.href}>
+                  <Button variant="link" className="text-md">
+                    {link.name}
+                  </Button>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )}
+
         <div className="flex items-center">
-          <ThemeToggle className="mr-4" />
+          <ThemeToggle className="mr-4 hidden md:block" />
           {session?.user ? (
-            <UserAccountNav user={session.user} />
+            <>
+              <UserAccountNav user={session.user} />
+              <HamburgerMenu />
+            </>
           ) : (
             <SignInButton text="Sign in" />
           )}

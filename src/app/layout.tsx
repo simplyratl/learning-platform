@@ -28,7 +28,7 @@ export default function RootLayout({
         className={cn(
           inter.className,
           poppins.variable,
-          "antialised min-h-[300vh] pt-28",
+          "antialised min-h-screen pt-28",
         )}
       >
         <Providers>
