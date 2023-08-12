@@ -4,9 +4,7 @@
 import { Button } from "@/components/ui/button";
 import { signIn } from "next-auth/react";
 
-type Props = {};
-
-const Hero = (props: Props) => {
+const Hero = () => {
   return (
     <section className="mx-auto h-[600px] max-w-7xl pl-8 pr-8 sm:pr-0">
       <div className="flex h-full gap-4">
