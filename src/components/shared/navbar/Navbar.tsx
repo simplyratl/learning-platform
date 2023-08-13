@@ -1,13 +1,11 @@
 import Link from "next/link";
 import NavbarWrapper from "./NavbarWrapper";
 import { ThemeToggle } from "./ThemeToggle";
-import UserAvatar from "./UserAvatar";
 import { getAuthSession } from "@/lib/nextauth";
 import SignInButton from "./SignInButton";
 import UserAccountNav from "./UserAccountNav";
-import { Button } from "@/components/ui/button";
 import HamburgerMenu from "./HamburgerMenu";
-import { navLinks } from "@/app/(constants)/constants";
+import NavbarLinks from "@/components/shared/navbar/NavbarLinks";
 
 type Props = {};
 
@@ -24,19 +22,7 @@ const Navbar = async (props: Props) => {
           </p>
         </Link>
 
-        {session?.user && (
-          <ul className="hidden md:flex">
-            {navLinks.map((link) => (
-              <li key={link.name}>
-                <Link href={link.href}>
-                  <Button variant="link" className="text-md">
-                    {link.name}
-                  </Button>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        )}
+        {session?.user && <NavbarLinks />}
 
         <div className="flex items-center">
           <ThemeToggle className="mr-4 hidden md:block" />

@@ -13,10 +13,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 
-export function ThemeToggle({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement>) {
+export function ThemeToggle(
+  { className, ...props }: React.HTMLAttributes<HTMLDivElement>,
+) {
   const { theme, setTheme } = useTheme();
 
   return (
@@ -45,6 +44,14 @@ export function ThemeToggle({
             )}
           >
             Dark
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => setTheme("black")}
+            className={cn(
+              theme === "black" ? "bg-primary text-primary-foreground" : "",
+            )}
+          >
+            Black
           </DropdownMenuItem>
           <DropdownMenuItem
             onClick={() => setTheme("system")}

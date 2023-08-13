@@ -37,7 +37,7 @@ const NavbarWrapper = ({ children }: Props) => {
   return (
     <div
       ref={headerRef}
-      className="fixed inset-x-0 top-0 z-[10] h-[72px] bg-white bg-opacity-70 py-2 backdrop-blur transition-transform dark:bg-[#00021490]"
+      className="fixed inset-x-0 top-0 z-[10] h-[72px] bg-background bg-opacity-70 py-2 backdrop-blur transition-transform"
     >
       {children}
     </div>
