@@ -7,7 +7,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
 import { useTheme } from "next-themes";
 import React from "react";
 import D3WordCloud from "react-d3-cloud";
@@ -38,12 +37,7 @@ const fontSizeMapper = (word: { value: number }) => {
 };
 
 const HotTopics = (props: Props) => {
-  const [mounted, setMounted] = React.useState(false);
   const theme = useTheme();
-
-  React.useEffect(() => setMounted(true), []);
-
-  if (!mounted) return <Skeleton className="h-[500px] w-full" />;
 
   return (
     <Card>

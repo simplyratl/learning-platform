@@ -1,7 +1,8 @@
 import React from "react";
+import MainContainer from "@/components/ui/main-container";
 
 const QuizPage = () => {
-  return <div>QuizPage</div>;
+  return <MainContainer title="Quizes"></MainContainer>;
 };
 
 export default QuizPage;

@@ -6,11 +6,11 @@ import { signIn } from "next-auth/react";
 
 const Hero = () => {
   return (
-    <section className="mx-auto h-[600px] max-w-7xl pl-8 pr-8 sm:pr-0">
+    <section className="mx-auto h-[600px] pl-8 pr-8 sm:pr-0">
       <div className="flex h-full gap-4">
         <div className="flex-1">
           <div className="flex h-full flex-col justify-center">
-            <h1 className="2xs:text-[11vw] 2xs:leading-[11vw] overflow-hidden text-2xl font-semibold sm:text-[7vw] sm:leading-[7vw] lg:text-7xl lg:leading-none">
+            <h1 className="overflow-hidden text-2xl font-semibold 2xs:text-[11vw] 2xs:leading-[11vw] sm:text-[7vw] sm:leading-[7vw] lg:text-7xl lg:leading-none">
               Learn
               <br /> with AI help <br /> for next exam
             </h1>

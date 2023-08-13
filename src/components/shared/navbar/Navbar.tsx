@@ -46,6 +46,7 @@ const Navbar = async (props: Props) => {
               <HamburgerMenu />
             </>
           ) : (
+            // BUTTON THAT HANDLES SIGN IN AND REDIRECTING TO HOME PAGE
             <SignInButton text="Sign in" />
           )}
         </div>
