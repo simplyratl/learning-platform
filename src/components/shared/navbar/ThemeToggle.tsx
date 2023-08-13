@@ -16,19 +16,34 @@ import { cn } from "@/lib/utils";
 export function ThemeToggle(
   { className, ...props }: React.HTMLAttributes<HTMLDivElement>,
 ) {
-  const { theme, setTheme } = useTheme();
+  const { theme, setTheme, systemTheme } = useTheme();
+
+  const getDarkMode =
+    theme === "dark" ||
+    theme === "black" ||
+    (theme === "system" && systemTheme === "dark");
 
   return (
     <div className={className} {...props}>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="outline" size="icon">
-            <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-            <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+            <Sun
+              className={cn(
+                "h-[1.2rem] w-[1.2rem] transition-all",
+                getDarkMode ? "-rotate-90 scale-0" : "rotate-0 scale-100",
+              )}
+            />
+            <Moon
+              className={cn(
+                "absolute h-[1.2rem] w-[1.2rem] transition-all",
+                getDarkMode ? "rotate-0 scale-100" : "rotate-90 scale-0",
+              )}
+            />
             <span className="sr-only">Toggle theme</span>
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
+        <DropdownMenuContent>
           <DropdownMenuItem
             onClick={() => setTheme("light")}
             className={cn(

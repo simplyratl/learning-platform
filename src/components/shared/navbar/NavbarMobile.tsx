@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 import React from "react";
+import { ThemeToggle } from "@/components/shared/navbar/ThemeToggle";
 
 type Props = {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -40,6 +41,9 @@ const NavbarMobile = ({ setOpen }: Props) => {
                 Sign out
               </Button>
             </div>
+          </li>
+          <li className="mt-8 flex justify-center">
+            <ThemeToggle />
           </li>
         </ul>
       </div>
