@@ -27,7 +27,7 @@ const data = [
     value: 5,
   },
   {
-    text: "pls kil mi",
+    text: "blabalba",
     value: 10,
   },
 ];

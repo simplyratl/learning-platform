@@ -40,7 +40,7 @@ const CreateQuizCard = () => {
 
   return (
     <div className="flex h-full w-full items-center justify-center">
-      <Card className="min-w-[600px]">
+      <Card className="min-w-full md:min-w-[600px]">
         <CardHeader>
           <CardTitle className="text-2xl font-bold">Create a Quiz</CardTitle>
           <CardDescription>
