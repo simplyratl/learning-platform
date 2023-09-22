@@ -9,7 +9,7 @@ type Props = {
 
 const UserAvatar = ({ user }: Props) => {
   return (
-    <Avatar>
+    <Avatar className="border-2 border-primary">
       {user.image ? (
         <div className="relative aspect-square h-full w-full">
           <Image

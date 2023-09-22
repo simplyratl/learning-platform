@@ -5,11 +5,17 @@ import "./globals.css";
 import Navbar from "@/components/shared/navbar/Navbar";
 import Providers from "@/components/Providers";
 
-const inter = Inter({ subsets: ["latin"], variable: "--inter-font" });
+display: "swap";
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--inter-font",
+  display: "swap",
+});
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800", "900"],
   variable: "--poppins-font",
+  display: "swap",
 });
 
 export const metadata: Metadata = {

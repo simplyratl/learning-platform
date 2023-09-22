@@ -48,7 +48,7 @@ const HotTopics = (props: Props) => {
       </CardHeader>
 
       <CardContent>
-        <D3WordCloud
+        {/* <D3WordCloud
           height={550}
           font="Times"
           fontSize={fontSizeMapper}
@@ -56,7 +56,7 @@ const HotTopics = (props: Props) => {
           data={data}
           padding={10}
           fill={theme.resolvedTheme === "dark" ? "#fff" : "#000"}
-        />
+        /> */}
       </CardContent>
     </Card>
   );
