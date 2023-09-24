@@ -1,20 +1,33 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Timer } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useChat } from "ai/react";
+import { useParams, useRouter } from "next/navigation";
 
 const answers = ["useState", "useEffect", "useContext", "useCallback"];
 
 const QuizPlayPage = () => {
-  const [questions, setQuestions] = React.useState<string[]>([]);
+  const formRef = useRef<HTMLFormElement>(null);
 
-  const { messages, input, handleInputChange, handleSubmit, setInput } =
-    useChat();
+  const [questions, setQuestions] = useState<string[]>([]);
+  const [currentQuestion, setCurrentQuestion] = useState<number>(1);
+  const router = useRouter();
+  const { id } = useParams();
+
+  const {
+    messages,
+    input,
+    handleInputChange,
+    handleSubmit,
+    setInput,
+    isLoading,
+    append,
+  } = useChat();
 
   useEffect(() => {
     setInput(`SSH, which stands for Secure Shell, is a cryptographic network protocol used to establish a secure connection between two computers over an unsecured network. It provides a secure way to access and manage remote systems and is commonly used for tasks such as remote login, remote command execution, and secure file transfer.
@@ -36,15 +49,17 @@ const QuizPlayPage = () => {
     7. **Remote Administration**: System administrators often use SSH to manage servers and network devices remotely, as it provides a secure way to perform administrative tasks.
     
     SSH is a critical tool for ensuring the security and integrity of network communication, especially when dealing with remote systems or accessing sensitive information over the internet. It is widely used in both the Linux/Unix and Windows environments and has become an essential part of modern network administration and cybersecurity practices.`);
+
+    append({
+      content: `SSH, which stands for Secure Shell, is a cryptographic network protocol used to establish a secure connection between two computers over an unsecured network. It provides a secure way to access and manage remote systems and is commonly used for tasks such as remote login, remote command execution, and secure file transfer.`,
+      role: "user",
+    });
   }, []);
 
   useEffect(() => {
-    if (messages.length > 0) {
-      // const questions = messages.map((m) => {
-      //   if (m.role === "user") return;
+    if (messages.length > 2) return;
 
-      //   return m.content
-      // });
+    if (messages.length > 1) {
       let questionsEl = [];
 
       for (let i = 0; i < messages.length; i++) {
@@ -52,15 +67,10 @@ const QuizPlayPage = () => {
         questionsEl.push(messages[i].content);
       }
 
+      if (!questionsEl[0]) return;
       setQuestions(createQuestionArray(questionsEl[0]));
     }
-  }, [messages]);
-
-  useEffect(() => {
-    if (questions) {
-      console.log(questions);
-    }
-  }, [questions]);
+  }, [messages, currentQuestion]);
 
   function createQuestionArray(text: string) {
     // Use a regular expression to split the text into questions
@@ -68,10 +78,31 @@ const QuizPlayPage = () => {
     const questions = text.match(questionRegex);
 
     // Trim any extra whitespace from each question
-    const trimmedQuestions = questions.map((question) => question.trim());
+    if (questions) {
+      const trimmedQuestions = questions.map((question) =>
+        question.trim().replace("- ", ""),
+      );
 
-    return trimmedQuestions;
+      return trimmedQuestions;
+    }
+
+    return [];
   }
+
+  const handleNextQuestion = () => {
+    const nextQuestion = currentQuestion + 1;
+
+    router.push(`/quiz/${id}?question=${nextQuestion}`);
+    setCurrentQuestion(nextQuestion);
+  };
+
+  const handlePrevQuestion = () => {
+    const prevQuestion = currentQuestion - 1;
+
+    router.push(`/quiz/${id}?question=${prevQuestion}`);
+    setCurrentQuestion(prevQuestion);
+  };
+
   return (
     <>
       <div className="mx-auto max-w-5xl">
@@ -84,7 +115,9 @@ const QuizPlayPage = () => {
                 </h2>
 
                 <div className="flex items-center gap-4">
-                  <p className="text-xl font-bold">Question 1/20</p>
+                  <p className="text-xl font-bold">
+                    Question {currentQuestion}/{questions.length - 1}
+                  </p>
 
                   <div className="flex items-center gap-2">
                     <Timer size={26} />
@@ -97,7 +130,7 @@ const QuizPlayPage = () => {
             <div className="mt-14">
               <div>
                 <p className="text-2xl font-medium text-zinc-700 dark:text-zinc-500">
-                  {questions[0] ?? "ok"}
+                  {questions[currentQuestion] ?? "ok"}
                 </p>
               </div>
 
@@ -118,16 +151,31 @@ const QuizPlayPage = () => {
                 ))}
               </div>
 
-              <Button className="w-full mt-6">Next</Button>
+              <Button
+                disabled={questions.length - 1 === currentQuestion}
+                onClick={handleNextQuestion}
+                className="mt-6 w-full"
+              >
+                Next
+              </Button>
+              <Button
+                disabled={currentQuestion === 1}
+                onClick={handlePrevQuestion}
+                className="mt-2 w-full"
+              >
+                Back
+              </Button>
             </div>
           </div>
         )}
 
-        {questions && questions.length === 0 && (
-          <form onSubmit={handleSubmit}>
-            <Button className="w-full">Start Quiz</Button>
-          </form>
+        {(isLoading || questions.length === 0) && (
+          <div className="text-center text-4xl text-white">Loading</div>
         )}
+
+        <form ref={formRef} onSubmit={handleSubmit} className="hidden">
+          <Button className="w-full">Start Quiz</Button>
+        </form>
       </div>
     </>
   );
