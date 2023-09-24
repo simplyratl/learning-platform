@@ -22,6 +22,8 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { CalendarIcon, Sparkles } from "lucide-react";
 
+import { useChat } from 'ai/react';
+
 const typesQuizCreate = [
   {
     name: "AI",
@@ -37,6 +39,9 @@ const typesQuizCreate = [
 
 const CreateQuizCard = () => {
   const [quizType, setQuizType] = React.useState<"ai" | "manual">("ai");
+
+  const { messages, input, handleInputChange, handleSubmit } = useChat();
+
 
   return (
     <div className="flex h-full w-full items-center justify-center">
@@ -137,6 +142,30 @@ const CreateQuizCard = () => {
           </CardFooter>
         )}
       </Card>
+
+    {/* AI CHAT START */}
+		<div className="mx-auto w-full max-w-md py-24 flex flex-col stretch">
+		{messages.map(m => (
+			<div key={m.id}>
+			{m.role === 'user' ? 'User: ' : 'AI: '}
+			{m.content}
+			</div>
+		))}
+	
+		<form onSubmit={handleSubmit}>
+			<label>
+			Enter text to generate questions...
+			<input
+				className="fixed w-full max-w-md bottom-0 border border-gray-300 rounded mb-8 shadow-xl p-2"
+				value={input}
+				onChange={handleInputChange}
+			/>
+			</label>
+		</form>
+		</div>
+    {/* AI CHAT END */}
+
+
     </div>
   );
 };
